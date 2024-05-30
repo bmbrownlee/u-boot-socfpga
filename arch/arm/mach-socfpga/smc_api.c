@@ -54,6 +54,10 @@ int smc_send_mailbox(u32 cmd, u32 len, u32 *arg, u8 urgent, u32 *resp_buf_len,
 	ret = invoke_smc(INTEL_SIP_SMC_MBOX_SEND_CMD, args, ARRAY_SIZE(args),
 			 resp, ARRAY_SIZE(resp));
 
+	/*
+	 * The below code for cache invalidation is not required as we are doing
+	 * a cache flush before the svc operation and will be removed in the next release branch.
+	 */
 	if (resp_buf && resp_buf_len && *resp_buf_len > 0)
 		invalidate_dcache_range((u64)resp_buf, (u64)resp_buf + *resp_buf_len);
 
